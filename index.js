@@ -15,9 +15,9 @@ app.use(express.json());
 app.use("/post", PostRouter);
 app.use("/", authRouter);
 
-// app.get("/", (req, res) => {
-//   res.json("Hello, world!");
-// });
+app.get("/", (req, res) => {
+  res.json("Hello, world!");
+});
 
 dbConnection();
 

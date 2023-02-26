@@ -22,10 +22,10 @@ async function signup(req, res) {
     });
 
     const token = jwt.sign({ email: result.email, id: result._id }, SECRET_KEY);
-    res.status(201).json({ user: result, token: token });
+    return res.status(201).json({ user: result, token: token });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 }
 
@@ -48,10 +48,10 @@ async function signin(req, res) {
       { email: existingUser.email, id: existingUser._id },
       SECRET_KEY
     );
-    res.status(200).json({ user: existingUser, token: token });
+    return res.status(200).json({ user: existingUser, token: token });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 }
 

@@ -9,12 +9,12 @@ async function AddPost(req, res) {
   });
 
   // Save the post to the database
-  newPost.save((err, post) => {
+  await newPost.save((err, post) => {
     if (err) {
       console.error(err);
-      res.status(403).send("error: " + err.message);
+      return res.status(403).send("error: " + err.message);
     } else {
-      res.send("successful");
+      return res.send("successful");
     }
   });
 }
@@ -23,30 +23,30 @@ async function deletePost(req, res) {
   const authorName = req.body.author;
   const many = req.body.many || false;
   if (many) {
-    Post.deleteMany({ author: authorName }, (err, result) => {
+    await Post.deleteMany({ author: authorName }, (err, result) => {
       if (err) {
         console.error(err);
-        res.status(500).json({ error: "Could not delete posts" });
+        return res.status(500).json({ error: "Could not delete posts" });
       } else if (result.deletedCount > 0) {
-        res.json({
+        return res.json({
           message: `Deleted ${result.deletedCount} posts by author ${authorName}`,
         });
       } else {
-        res
+        return res
           .status(404)
           .json({ error: `No posts found by author ${authorName}` });
       }
     });
   } else {
-    Post.findOneAndDelete({ author: authorName }, (err, deletedPost) => {
+    await Post.findOneAndDelete({ author: authorName }, (err, deletedPost) => {
       if (err) {
         console.error(err);
       } else if (deletedPost) {
-        res.json({
+        return res.json({
           message: `Deleted post with title ${deletedPost.title}`,
         });
       } else {
-        res
+        return res
           .status(404)
           .json({ error: `No posts found by author ${authorName}` });
       }
@@ -55,13 +55,13 @@ async function deletePost(req, res) {
 }
 
 async function GetPost(req, res) {
-  Post.find((err, posts) => {
+  await Post.find((err, posts) => {
     if (err) {
       console.error(err);
-      res.status(404).send("Error retrieving posts");
+      return res.status(404).send("Error retrieving posts");
     } else {
       console.log(req.randomId);
-      res.json(posts);
+      return res.json(posts);
     }
   });
 }
