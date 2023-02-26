@@ -9,7 +9,7 @@ async function AddPost(req, res) {
   });
 
   // Save the post to the database
-  await newPost.save((err, post) => {
+  newPost.save((err, post) => {
     if (err) {
       console.error(err);
       return res.status(403).send("error: " + err.message);
@@ -23,7 +23,7 @@ async function deletePost(req, res) {
   const authorName = req.body.author;
   const many = req.body.many || false;
   if (many) {
-    await Post.deleteMany({ author: authorName }, (err, result) => {
+    Post.deleteMany({ author: authorName }, (err, result) => {
       if (err) {
         console.error(err);
         return res.status(500).json({ error: "Could not delete posts" });
@@ -38,7 +38,7 @@ async function deletePost(req, res) {
       }
     });
   } else {
-    await Post.findOneAndDelete({ author: authorName }, (err, deletedPost) => {
+    Post.findOneAndDelete({ author: authorName }, (err, deletedPost) => {
       if (err) {
         console.error(err);
       } else if (deletedPost) {
@@ -55,12 +55,11 @@ async function deletePost(req, res) {
 }
 
 async function GetPost(req, res) {
-  await Post.find((err, posts) => {
+  Post.find((err, posts) => {
     if (err) {
       console.error(err);
       return res.status(404).send("Error retrieving posts");
     } else {
-      console.log(req.randomId);
       return res.json(posts);
     }
   });
