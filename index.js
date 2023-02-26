@@ -1,34 +1,23 @@
 const express = require("express");
 const app = express();
+
 const dbConnection = require("./DbConnection");
-const Post = require("./model/post");
-const bodyParser = require("body-parser");
+const PostRouter = require("./Routers/PostRouter");
+const authRouter = require("./Routers/AuthRouter");
 
-//actions
-const AddPost = require("./Actions/Posts/AddPost");
-const deletePost = require("./Actions/Posts/DeletePost");
-const GetPost = require("./Actions/Posts/getPosts");
+const dotenv = require("dotenv");
+const cors = require("cors");
 
-require("dotenv").config();
+dotenv.config();
+app.use(cors());
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use("/post", PostRouter);
+app.use("/", authRouter);
 
-app.get("/", (req, res) => {
-  res.json("Hello, world!");
-});
-
-app.post("/post", (req, res) => {
-  AddPost(req, res);
-});
-
-app.get("/post", (req, res) => {
-  GetPost(req, res);
-});
-
-app.delete("/post", (req, res) => {
-  deletePost(req, res);
-});
+// app.get("/", (req, res) => {
+//   res.json("Hello, world!");
+// });
 
 dbConnection();
 
