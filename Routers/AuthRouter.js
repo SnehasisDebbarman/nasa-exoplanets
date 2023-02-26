@@ -7,8 +7,4 @@ authRouter.post("/signup", signup);
 
 authRouter.post("/login", signin);
 
-// authRouter.post("/deleteUser", deletePost);
-
-// authRouter.post("/changePassword", GetPost);
-
 module.exports = authRouter;
