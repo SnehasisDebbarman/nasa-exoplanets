@@ -20,8 +20,10 @@ app.get("/", (req, res) => {
 });
 
 dbConnection();
+//this will connected to db
 
 const port = process.env.PORT || 3000;
+// this will default port
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
